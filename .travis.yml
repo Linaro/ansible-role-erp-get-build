@@ -1,0 +1,50 @@
+---
+sudo: required
+
+env:
+  - container: debian:8
+    init: /lib/systemd/systemd
+    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+
+services:
+  - docker
+
+before_install:
+  - 'sudo docker pull ${container}'
+
+script:
+  - container_id=$(mktemp)
+
+  - 'sudo docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test ${run_opts} ${container} "${init}" > "${container_id}"'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm
+      apt-get update &&
+      apt-get install -y python-pip python-dev libffi-dev libssl-dev &&
+      pip install --upgrade pip cffi &&
+      pip install ansible'
+
+  # Ansible syntax check.
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm
+      ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check'
+
+  # Test role.
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm
+      ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml'
+
+  # Test role idempotence.
+  - idempotence=$(mktemp)
+  - sudo docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml | tee -a ${idempotence}
+  - >
+    tail ${idempotence}
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
+
+  # Verify a file named linux and initrd.gz exist under builds/
+  - find builds | grep -q linux
+  - find builds | grep -q initrd.gz
+
+after_success:
+  - 'sudo docker stop "$(cat ${container_id})"'
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

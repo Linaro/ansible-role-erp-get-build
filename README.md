@@ -6,11 +6,6 @@ Download an Enterprise Reference Platform (ERP) release.
 By default, this role will discover the latest staging ERP build from jenkins,
 set 'erp_latest_build' number, and download the build to ./builds/staging/.
 
-Requirements
-------------
-
-None
-
 Role Variables
 --------------
 
@@ -33,8 +28,6 @@ None
 
 Example Playbook
 ----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
     - hosts: servers
       roles:
