@@ -1,4 +1,4 @@
 ---
 - hosts: all
   roles:
-    - ansible-role-erp-get-build
+    - role_under_test
