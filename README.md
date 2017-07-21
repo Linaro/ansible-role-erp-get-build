@@ -31,7 +31,7 @@ Example Playbook
 
     - hosts: servers
       roles:
-        - role: get_erp_build
+        - role: Linaro.erp-get-build
 
 License
 -------
