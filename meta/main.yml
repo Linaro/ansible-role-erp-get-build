@@ -1,12 +1,17 @@
 galaxy_info:
   author: Dan Rue <dan.rue@linaro.org>
-  description: Download an ERP release
+  description: Download an Enterprise Reference Platform (ERP) release
   company: Linaro
 
   license: BSD
 
-  min_ansible_version: 2.2
+  min_ansible_version: 2.0
 
-  galaxy_tags: []
+  platforms:
+    - name: GenericLinux
+      versions:
+        - all
+
+  galaxy_tags: ['erp']
 
 dependencies: []
