@@ -1,11 +1,12 @@
 ---
-- name: Get latest build number from Jenkins
+- name: Get latest build number from build server
   uri:
-    url: "{{erp_debian_installer_jenkins_urls[erp_debian_installer_environment]}}"
-  register: jenkins_build_info
+    url: "{{erp_debian_installer_download_urls_api[erp_debian_installer_environment]}}"
+  register: builds_available
   when: not erp_build_number
 - set_fact:
-    erp_build_number: "{{jenkins_build_info['json']['lastCompletedBuild']['number']}}"
+    # The [0] entry is 'latest', the [1] is the most recent build number.
+    erp_build_number: "{{builds_available['json']['files'][1]['name']}}"
   when: not erp_build_number
 
 # For backward compatibility
