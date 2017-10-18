@@ -20,6 +20,11 @@
   file:
     path: "./builds/debian-{{erp_debian_installer_environment}}/{{erp_build_number}}"
     state: directory
+- name: Save download paths
+  set_fact:
+    erp_image_paths:
+      kernel: "./builds/debian-{{erp_debian_installer_environment}}/{{erp_build_number}}/linux"
+      initrd: "./builds/debian-{{erp_debian_installer_environment}}/{{erp_build_number}}/initrd.gz"
 - name: Download build locally
   get_url:
     url: "{{erp_debian_installer_download_urls[erp_debian_installer_environment]}}/{{erp_build_number}}/debian-installer/arm64/{{item}}"
