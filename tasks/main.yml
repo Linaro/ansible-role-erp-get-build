@@ -32,3 +32,10 @@
   with_items:
     - "initrd.gz"
     - "linux"
+
+- name: Set facts for mr-provisioner
+  set_fact:
+    mr_provisioner_kernel_description: "debian-installer {{erp_debian_installer_environment}} build {{erp_build_number}}"
+    mr_provisioner_initrd_description: "debian-installer {{erp_debian_installer_environment}} build {{erp_build_number}}"
+    mr_provisioner_kernel_path: "{{erp_image_paths['kernel']}}"
+    mr_provisioner_initrd_path: "{{erp_image_paths['initrd']}}"

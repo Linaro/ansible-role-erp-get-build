@@ -22,6 +22,14 @@ Out:
 |----------|-------------|---------
 | erp_build_number | Latest build number, based on erp_debian_installer_environment | 430
 
+For convenience with ansible-role-mr-provisioner, this role will also set the
+following variables:
+- mr_provisioner_kernel_description: i.e. "debian-installer staging build 495"
+- mr_provisioner_initrd_description: i.e. "debian-installer staging build 495"
+- mr_provisioner_kernel_path: i.e. "./builds/debian-staging/495/linux"
+- mr_provisioner_initrd_path: i.e. "./builds/debian-staging/495/initrd.gz"
+
+
 Dependencies
 ------------
 
