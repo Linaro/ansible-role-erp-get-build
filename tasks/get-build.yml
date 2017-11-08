@@ -1,0 +1,41 @@
+---
+- name: Get latest build number from build server
+  uri:
+    url: "{{erp_debian_installer_download_urls_api[erp_debian_installer_environment]}}"
+  register: builds_available
+  when: not erp_build_number
+- set_fact:
+    # The [0] entry is 'latest', the [1] is the most recent build number.
+    erp_build_number: "{{builds_available['json']['files'][1]['name']}}"
+  when: not erp_build_number
+
+# For backward compatibility
+- set_fact:
+    erp_latest_build: "{{erp_build_number}}"
+
+- debug:
+    msg: "Using debian installer {{erp_debian_installer_environment}} build {{erp_build_number}}"
+
+- name: Create local builds directory
+  file:
+    path: "./builds/debian-{{erp_debian_installer_environment}}/{{erp_build_number}}"
+    state: directory
+- name: Save download paths
+  set_fact:
+    erp_image_paths:
+      kernel: "./builds/debian-{{erp_debian_installer_environment}}/{{erp_build_number}}/linux"
+      initrd: "./builds/debian-{{erp_debian_installer_environment}}/{{erp_build_number}}/initrd.gz"
+- name: Download build locally
+  get_url:
+    url: "{{erp_debian_installer_download_urls[erp_debian_installer_environment]}}/{{erp_build_number}}/debian-installer/arm64/{{item}}"
+    dest: "./builds/debian-{{erp_debian_installer_environment}}/{{erp_build_number}}/{{item}}"
+  with_items:
+    - "initrd.gz"
+    - "linux"
+
+- name: Set facts for mr-provisioner
+  set_fact:
+    mr_provisioner_kernel_description: "debian-installer {{erp_debian_installer_environment}} build {{erp_build_number}}"
+    mr_provisioner_initrd_description: "debian-installer {{erp_debian_installer_environment}} build {{erp_build_number}}"
+    mr_provisioner_kernel_path: "{{erp_image_paths['kernel']}}"
+    mr_provisioner_initrd_path: "{{erp_image_paths['initrd']}}"
