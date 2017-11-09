@@ -13,7 +13,7 @@ In:
 
 | variable | description | default
 |----------|-------------|---------
-| erp_debian_installer_environment | [staging|stable] | staging
+| erp_debian_installer_environment | [staging\|stable] | staging
 | erp_build_number | ERP build to retrieve. | Defaults to false, in which case it will be set to the latest build number.
 
 Out:
