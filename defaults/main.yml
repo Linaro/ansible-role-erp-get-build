@@ -10,11 +10,12 @@ erp_build_number: false
 # Used to discover available builds and set erp_build_number, when it's not
 # explicitly set
 erp_debian_installer_download_urls_api:
-  staging: "http://builds.96boards.org/api/ls/snapshots/reference-platform/components/debian-installer-staging/"
-  stable: "http://builds.96boards.org/api/ls/snapshots/reference-platform/components/debian-installer/"
+  staging: "http://snapshots.linaro.org/api/ls/96boards/reference-platform/components/debian-installer-staging/"
+  stable: "http://snapshots.linaro.org/api/ls/96boards/reference-platform/components/debian-installer/"
+
 
 # Used to download builds
 erp_debian_installer_download_urls:
-  staging: "http://builds.96boards.org/snapshots/reference-platform/components/debian-installer-staging/"
-  stable: "http://builds.96boards.org/snapshots/reference-platform/components/debian-installer/"
+  staging: "http://snapshots.linaro.org/96boards/reference-platform/components/debian-installer-staging/"
+  stable: "http://snapshots.linaro.org/96boards/reference-platform/components/debian-installer/"
 
