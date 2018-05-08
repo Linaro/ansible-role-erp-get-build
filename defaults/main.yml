@@ -1,21 +1,24 @@
 ---
-
-# Which debian installer to use. Defaults to staging, but may also be
-# 'release'.
-erp_debian_installer_environment: staging
+# Which installer to use. Defaults to debian staging, but may also be other builds
+erp_installer_distro: debian
+erp_installer_environment: staging
 
 # If unset, use the latest build
 erp_build_number: false
 
 # Used to discover available builds and set erp_build_number, when it's not
 # explicitly set
-erp_debian_installer_download_urls_api:
+erp_installer_download_urls_api:
   staging: "http://snapshots.linaro.org/api/ls/96boards/reference-platform/components/debian-installer-staging/"
   stable: "http://snapshots.linaro.org/api/ls/96boards/reference-platform/components/debian-installer/"
 
 
 # Used to download builds
-erp_debian_installer_download_urls:
+erp_installer_download_urls:
   staging: "http://snapshots.linaro.org/96boards/reference-platform/components/debian-installer-staging/"
   stable: "http://snapshots.linaro.org/96boards/reference-platform/components/debian-installer/"
 
+# Used to download build images
+erp_image_remote_paths:
+  kernel: "debian-installer/arm64/linux"
+  initrd: "debian-installer/arm64/initrd.gz"
